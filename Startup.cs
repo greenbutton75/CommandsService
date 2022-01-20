@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using CommandsService.Data;
+using CommandService.Data;
 
 namespace CommandsService
 {
@@ -26,7 +29,14 @@ namespace CommandsService
         public void ConfigureServices(IServiceCollection services)
         {
 
+            Console.WriteLine("--> Using InMem db");
+            services.AddDbContext<AppDbContext>(opt =>
+                        opt.UseInMemoryDatabase("InMem"));
+
+            services.AddScoped<ICommandRepo, CommandRepo>();
+
             services.AddControllers();
+            services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CommandsService", Version = "v1" });
@@ -51,6 +61,9 @@ namespace CommandsService
             {
                 endpoints.MapControllers();
             });
+
+            PrepDb.PrepPopulation(app);
+
         }
     }
 }
