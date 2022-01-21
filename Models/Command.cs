@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CommandsService.Models
@@ -6,17 +7,17 @@ namespace CommandsService.Models
     {
         [Key]
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; } = $"command:{Guid.NewGuid().ToString()}";
 
         [Required]
-        public string HowTo { get; set; }
+        public string HowTo { get; set; } = String.Empty;
 
         [Required]
-        public string CommandLine { get; set; }
+        public string CommandLine { get; set; } = String.Empty;
 
         [Required]
-        public int PlatformId { get; set; }
+        public string PlatformId { get; set; } = String.Empty;
 
-        public Platform Platform {get; set;}
+        public Platform? Platform {get; set;}
     }
 }

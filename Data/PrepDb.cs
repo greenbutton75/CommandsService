@@ -12,25 +12,23 @@ namespace CommandService.Data
         {
             using (var serviceScope = app.ApplicationServices.CreateScope())
             {
-                SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>());
+                //SeedData(serviceScope.ServiceProvider.GetService<AppDbContext>());
+                SeedData(serviceScope.ServiceProvider.GetService<ICommandRepo>());
             }
         }
 
-        private static void SeedData(AppDbContext context)
+        //private static void SeedData(AppDbContext context)
+        private static void SeedData(ICommandRepo repo)
         {
-            if (!context.Platforms.Any())
-            {
-                Console.WriteLine("--> Seeding Data");
+            Console.WriteLine("Seeding new platforms...");
 
-                context.Platforms.AddRange(new CommandsService.Models.Platform() { Name = "DotNet", ExternalID = 1 },
-                                          new CommandsService.Models.Platform() { Name = "Redis", ExternalID = 2 });
-                context.SaveChanges();
+            repo.CreatePlatform(new CommandsService.Models.Platform() { Name = "DotNet", ExternalID = 1 });
+            repo.CreatePlatform(new CommandsService.Models.Platform() { Name = "Redis", ExternalID = 2 });
+            repo.SaveChanges();
+            //context.Platforms.AddRange(new CommandsService.Models.Platform() { Name = "DotNet", ExternalID = 1 },
+            //                          new CommandsService.Models.Platform() { Name = "Redis", ExternalID = 2 });
+            //context.SaveChanges();
 
-            }
-            else
-            {
-                Console.WriteLine("--> there are some platforms in DB already");
-            }
 
         }
     }

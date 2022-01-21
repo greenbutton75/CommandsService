@@ -5,7 +5,7 @@ using CommandService.Data;
 using CommandsService.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CommandsService
+namespace CommandsService.Controllers
 {
     [Route("api/c/[controller]")]
     [ApiController]

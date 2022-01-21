@@ -9,11 +9,11 @@ namespace CommandService.Data
 
         IEnumerable<Platform> GetAllPlatforms();
         void CreatePlatform(Platform platform);
-        bool PlatformExists(int platformId);
+        bool PlatformExists(string platformId);
         
-        IEnumerable<Command> GetCommandsForPlatform(int platformId);
-        Command GetCommand(int platformId, int commandId);
-        void CreateCommand(int platformId, Command command);
+        IEnumerable<Command?>? GetCommandsForPlatform(string platformId);
+        Command? GetCommand(string platformId, string commandId);
+        void CreateCommand(string platformId, Command command);
 
     }
 

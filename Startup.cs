@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CommandsService.Data;
 using CommandService.Data;
+using StackExchange.Redis;
 
 namespace CommandsService
 {
@@ -29,9 +30,12 @@ namespace CommandsService
         public void ConfigureServices(IServiceCollection services)
         {
 
-            Console.WriteLine("--> Using InMem db");
-            services.AddDbContext<AppDbContext>(opt =>
-                        opt.UseInMemoryDatabase("InMem"));
+            //Console.WriteLine("--> Using InMem db");
+            //services.AddDbContext<AppDbContext>(opt =>
+            //            opt.UseInMemoryDatabase("InMem"));
+            Console.WriteLine("--> Using Redis db");
+            services.AddSingleton<IConnectionMultiplexer>(opt =>
+            ConnectionMultiplexer.Connect(Configuration.GetConnectionString("DockerRedisConnection")));
 
             services.AddScoped<ICommandRepo, CommandRepo>();
 
@@ -62,7 +66,7 @@ namespace CommandsService
                 endpoints.MapControllers();
             });
 
-            PrepDb.PrepPopulation(app);
+            //PrepDb.PrepPopulation(app);
 
         }
     }
