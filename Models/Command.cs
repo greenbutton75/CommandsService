@@ -18,6 +18,6 @@ namespace CommandsService.Models
         [Required]
         public string PlatformId { get; set; } = String.Empty;
 
-        public Platform? Platform {get; set;}
+        public Platform Platform { get; set; } = new Platform();
     }
 }
