@@ -9,6 +9,8 @@ namespace CommandsService.Profiles
         {
             // src -> tgt
             CreateMap<Models.Platform, PlatformReadDto>();
+            CreateMap<PlatformPublishedDto, Models.Platform>()
+                .ForMember(dest => dest.ExternalID, opt => opt.MapFrom(src => src.Id));
             
             CreateMap<Models.Command, CommandReadDto>();
             CreateMap<CommandCreateDto, Models.Command>();

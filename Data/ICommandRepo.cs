@@ -7,9 +7,10 @@ namespace CommandService.Data
     {
         bool SaveChanges();
 
-        IEnumerable<Platform> GetAllPlatforms();
+        IEnumerable<Platform?>? GetAllPlatforms();
         void CreatePlatform(Platform platform);
         bool PlatformExists(string platformId);
+        bool ExternalPlatformExists(int externalPlatformId);
         
         IEnumerable<Command?>? GetCommandsForPlatform(string platformId);
         Command? GetCommand(string platformId, string commandId);

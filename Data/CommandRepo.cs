@@ -45,16 +45,16 @@ namespace CommandService.Data
             //_context.Platforms.Add(platform);
         }
 
-        IEnumerable<Platform> ICommandRepo.GetAllPlatforms()
+        IEnumerable<Platform?> ICommandRepo.GetAllPlatforms()
         {
             var db = _context.GetDatabase();
 
             var he = db.HashGetAll("platforms");
-            List<Platform> res = new List<Platform>();
+            List<Platform?> res = new List<Platform?>();
 
             foreach (var item in he)
             {
-                var plat = db.StringGet(item.Name.ToString ());
+                var plat = db.StringGet(item.Name.ToString());
                 if (!string.IsNullOrEmpty(plat)) res.Add(JsonSerializer.Deserialize<Platform>(plat));
             }
 
@@ -76,12 +76,12 @@ namespace CommandService.Data
             //return _context.Commands.Where(p => p.PlatformId == platformId && p.Id == commandId).FirstOrDefault();
         }
 
-        IEnumerable<Command> ICommandRepo.GetCommandsForPlatform(string platformId)
+        IEnumerable<Command?> ICommandRepo.GetCommandsForPlatform(string platformId)
         {
             var db = _context.GetDatabase();
 
             var he = db.HashGetAll($"platformcommands:{platformId}");
-            List<Command> res = new List<Command>();
+            List<Command?> res = new List<Command?>();
 
             foreach (var item in he)
             {
@@ -106,6 +106,24 @@ namespace CommandService.Data
             return false;
 
             //return _context.Platforms.Any(p => p.Id == platformId);
+        }
+
+        bool ICommandRepo.ExternalPlatformExists(int externalPlatformId)
+        {
+            var db = _context.GetDatabase();
+
+            var he = db.HashGetAll("platforms");
+            List<Platform> res = new List<Platform>();
+
+            foreach (var item in he)
+            {
+                var plat = db.StringGet(item.Name.ToString());
+                if (!string.IsNullOrEmpty(plat))
+                    if (JsonSerializer.Deserialize<Platform>(plat)?.ExternalID == externalPlatformId)
+                        return true;
+            }
+
+            return false;
         }
 
         bool ICommandRepo.SaveChanges()

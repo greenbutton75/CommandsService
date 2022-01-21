@@ -37,6 +37,8 @@ namespace CommandsService
             services.AddSingleton<IConnectionMultiplexer>(opt =>
             ConnectionMultiplexer.Connect(Configuration.GetConnectionString("DockerRedisConnection")));
 
+            //services.AddSingleton<IMessageBusClient, MessageBusClient>();
+
             services.AddScoped<ICommandRepo, CommandRepo>();
 
             services.AddControllers();

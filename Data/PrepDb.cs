@@ -18,13 +18,13 @@ namespace CommandService.Data
         }
 
         //private static void SeedData(AppDbContext context)
-        private static void SeedData(ICommandRepo repo)
+        private static void SeedData(ICommandRepo? repo)
         {
             Console.WriteLine("Seeding new platforms...");
 
-            repo.CreatePlatform(new CommandsService.Models.Platform() { Name = "DotNet", ExternalID = 1 });
-            repo.CreatePlatform(new CommandsService.Models.Platform() { Name = "Redis", ExternalID = 2 });
-            repo.SaveChanges();
+            repo?.CreatePlatform(new CommandsService.Models.Platform() { Name = "DotNet", ExternalID = 1 });
+            repo?.CreatePlatform(new CommandsService.Models.Platform() { Name = "Redis", ExternalID = 2 });
+            repo?.SaveChanges();
             //context.Platforms.AddRange(new CommandsService.Models.Platform() { Name = "DotNet", ExternalID = 1 },
             //                          new CommandsService.Models.Platform() { Name = "Redis", ExternalID = 2 });
             //context.SaveChanges();
