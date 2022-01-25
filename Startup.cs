@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore;
 using CommandsService.Data;
 using CommandService.Data;
 using StackExchange.Redis;
+using CommandsService.EventProcessing;
+using CommandsService.AsyncDataServices;
+using CommandsService.SyncDataServices.Grpc;
 
 namespace CommandsService
 {
@@ -40,9 +43,14 @@ namespace CommandsService
             //services.AddSingleton<IMessageBusClient, MessageBusClient>();
 
             services.AddScoped<ICommandRepo, CommandRepo>();
+            services.AddSingleton<IEventProcessor, EventProcessor>();
+            services.AddScoped<IPlatformDataClient, PlatformDataClient>();
 
             services.AddControllers();
-            services.AddAutoMapper (AppDomain.CurrentDomain.GetAssemblies ());
+
+            services.AddHostedService<MessageBusSubscriber>();
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CommandsService", Version = "v1" });
@@ -68,7 +76,7 @@ namespace CommandsService
                 endpoints.MapControllers();
             });
 
-            //PrepDb.PrepPopulation(app);
+            PrepDb.PrepPopulation(app);
 
         }
     }

@@ -40,6 +40,9 @@ namespace CommandService.Data
 
             var j = JsonSerializer.Serialize(platform);
 
+            if (!platform.Id.StartsWith("platform:"))
+                platform.Id = $"platform:{platform.Id}";
+
             db.HashSet("platforms", new HashEntry[] { new HashEntry(platform.Id, platform.Id) });
             db.StringSet(platform.Id, j);
             //_context.Platforms.Add(platform);
